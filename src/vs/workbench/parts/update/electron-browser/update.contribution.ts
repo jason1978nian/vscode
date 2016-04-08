@@ -13,20 +13,20 @@ import { IWorkbenchContributionsRegistry, Extensions as WorkbenchExtensions } f
 import { IStorageService, StorageScope } from 'vs/platform/storage/common/storage';
 import { IWorkspaceContextService } from 'vs/platform/workspace/common/workspace';
 import { IMessageService } from 'vs/platform/message/common/message';
+import {IWindowService}from 'vs/workbench/services/window/electron-browser/windowService';
 import Severity from 'vs/base/common/severity';
 import { ShowReleaseNotesAction } from 'vs/workbench/electron-browser/update';
 import { Action } from 'vs/base/common/actions';
-import { shell } from 'electron';
 import * as semver from 'semver';
 
 const CloseAction = new Action('close', nls.localize('close', "Close"), '', true, () => null);
 
-const ShowLicenseAction = (licenseUrl: string) => new Action(
+const ShowLicenseAction = (windowService: IWindowService, licenseUrl: string) => new Action(
 	'update.showLicense',
 	nls.localize('license', "Read License"),
 	null,
 	true,
-	() => { shell.openExternal(licenseUrl); return TPromise.as(null); }
+	() => { windowService.openExternal(licenseUrl); return TPromise.as(null); }
 );
 
 export class UpdateContribution implements IWorkbenchContribution {
@@ -37,7 +37,8 @@ export class UpdateContribution implements IWorkbenchContribution {
 	constructor(
 		@IStorageService storageService: IStorageService,
 		@IWorkspaceContextService contextService: IWorkspaceContextService,
-		@IMessageService messageService: IMessageService
+		@IMessageService messageService: IMessageService,
+		@IWindowService windowService: IWindowService
 	) {
 		const env = contextService.getConfiguration().env;
 		const lastVersion = storageService.get(UpdateContribution.KEY, StorageScope.GLOBAL, '');
@@ -49,7 +50,7 @@ export class UpdateContribution implements IWorkbenchContribution {
 					message: nls.localize('releaseNotes', "Welcome to {0} v{1}! Would you like to read the Release Notes?", env.appName, env.version),
 					actions: [
 						CloseAction,
-						ShowReleaseNotesAction(env.releaseNotesUrl, true)
+						ShowReleaseNotesAction(windowService, env.releaseNotesUrl, true)
 					]
 				});
 
@@ -63,7 +64,7 @@ export class UpdateContribution implements IWorkbenchContribution {
 					message: nls.localize('licenseChanged', "Our license terms have changed, please go through them.", env.appName, env.version),
 					actions: [
 						CloseAction,
-						ShowLicenseAction(env.licenseUrl)
+						ShowLicenseAction(windowService, env.licenseUrl)
 					]
 				});
 

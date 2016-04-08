@@ -5,11 +5,12 @@
 
 'use strict';
 
+import * as platform from 'vs/base/common/platform';
 import {ElectronWindow} from 'vs/workbench/electron-browser/window';
 import {createDecorator, ServiceIdentifier} from 'vs/platform/instantiation/common/instantiation';
 import Event, {Emitter} from 'vs/base/common/event';
 
-import {ipcRenderer as ipc, remote} from 'electron';
+import {ipcRenderer as ipc, remote, shell} from 'electron';
 
 const windowId = remote.getCurrentWindow().id;
 
@@ -32,6 +33,14 @@ export interface IWindowService {
 	getWindow(): ElectronWindow;
 
 	registerWindow(win: ElectronWindow): void;
+
+	/**
+	 * Open the given external protocol URL in the desktop's default manner
+	 * (e.g., mailto: URLs in the default mail user agent). This is a wrapper
+	 * around Electron's shell.openExternal that prevents a Linux bug when
+	 * running as the root user.
+	 */
+	openExternal(url: string): boolean;
 
 	broadcast(b: IBroadcast, target?: string): void;
 
@@ -72,6 +81,13 @@ export class WindowService implements IWindowService {
 
 	public registerWindow(win: ElectronWindow): void {
 		this.win = win;
+	}
+
+	public openExternal(url: string): boolean {
+		if (platform.isLinux && platform.isRoot) {
+			return false;
+		}
+		return shell.openExternal(url);
 	}
 
 	public broadcast(b: IBroadcast, target?: string): void {

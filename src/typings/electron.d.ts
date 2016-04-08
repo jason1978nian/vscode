@@ -1464,7 +1464,7 @@ declare module Electron {
 		 * Open the given external protocol URL in the desktop's default manner
 		 * (e.g., mailto: URLs in the default mail user agent).
 		 */
-		openExternal(url: string): void;
+		openExternal(url: string): boolean
 		/**
 		 * Move the given file to trash and returns boolean status for the operation.
 		 */

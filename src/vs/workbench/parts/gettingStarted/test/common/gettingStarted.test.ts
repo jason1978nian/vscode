@@ -6,12 +6,12 @@
 'use strict';
 
 import * as assert from 'assert';
-import {AbstractGettingStarted} from 'vs/workbench/parts/gettingStarted/common/abstractGettingStarted';
+import {GettingStarted} from 'vs/workbench/parts/gettingStarted/common/gettingStarted';
 import {IInstantiationService} from 'vs/platform/instantiation/common/instantiation';
 import {createInstantiationService} from 'vs/platform/instantiation/common/instantiationService';
 import {TPromise} from 'vs/base/common/winjs.base';
 
-class TestGettingStarted extends AbstractGettingStarted {
+class TestGettingStarted extends GettingStarted {
 	public lastUrl: string;
 
 	protected openExternal(url: string) {

@@ -17,8 +17,9 @@ import dom = require('vs/base/browser/dom');
 import {IStorageService} from 'vs/platform/storage/common/storage';
 import {IEventService} from 'vs/platform/event/common/event';
 import {IWorkspaceContextService} from 'vs/platform/workspace/common/workspace';
+import {IWindowService}from 'vs/workbench/services/window/electron-browser/windowService';
 
-import {ipcRenderer as ipc, shell, remote} from 'electron';
+import {ipcRenderer as ipc, remote} from 'electron';
 
 const dialog = remote.dialog;
 
@@ -41,7 +42,8 @@ export class ElectronWindow {
 		@IEventService private eventService: IEventService,
 		@IStorageService private storageService: IStorageService,
 		@IWorkbenchEditorService private editorService: IWorkbenchEditorService,
-		@IViewletService private viewletService: IViewletService
+		@IViewletService private viewletService: IViewletService,
+		@IWindowService private windowServer: IWindowService
 	) {
 		this.win = win;
 		this.windowId = win.id;
@@ -123,7 +125,7 @@ export class ElectronWindow {
 
 		// Handle window.open() calls
 		(<any>window).open = function(url: string, target: string, features: string, replace: boolean) {
-			shell.openExternal(url);
+			this.windowService.openExternal(url);
 
 			return null;
 		};

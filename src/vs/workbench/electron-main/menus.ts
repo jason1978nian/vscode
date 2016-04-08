@@ -759,7 +759,9 @@ function openAboutDialog(): void {
 }
 
 function openUrl(url: string, id: string): void {
-	shell.openExternal(url);
+	if (platform.isLinux && platform.isRoot) {
+		shell.openExternal(url);
+	}
 	reportMenuActionTelemetry(id);
 }
 

@@ -97,7 +97,12 @@ export class UpdateManager extends events.EventEmitter {
 					releaseNotes: '',
 					version: '',
 					date: new Date(),
-					quitAndUpdate: () => electron.shell.openExternal(url)
+					quitAndUpdate: () => {
+						if (platform.isLinux && platform.isRoot) {
+							return;
+						}
+						electron.shell.openExternal(url);
+					}
 				};
 			}
 

@@ -26,7 +26,7 @@ import { IWorkspaceContextService } from 'vs/workbench/services/workspace/common
 import { HighlightedLabel } from 'vs/base/browser/ui/highlightedlabel/highlightedLabel';
 import { Action } from 'vs/base/common/actions';
 import { ActionBar } from 'vs/base/browser/ui/actionbar/actionbar';
-import { shell } from 'electron';
+import {IWindowService}from 'vs/workbench/services/window/electron-browser/windowService';
 import { extensionEquals, getOutdatedExtensions } from 'vs/workbench/parts/extensions/common/extensionsUtil';
 
 const $ = dom.emmet;
@@ -92,14 +92,15 @@ function extensionEntryCompare(one: IExtensionEntry, other: IExtensionEntry): nu
 class OpenLicenseAction extends Action {
 
 	constructor(
-		@IWorkspaceContextService private contextService: IWorkspaceContextService
+		@IWorkspaceContextService private contextService: IWorkspaceContextService,
+		@IWindowService private windowService: IWindowService
 	) {
 		super('extensions.open-license', nls.localize('license', "License"), '', true);
 	}
 
 	public run(extension: IExtension): TPromise<any> {
 		const url = `${ this.contextService.getConfiguration().env.extensionsGallery.itemUrl }/${ extension.publisher }.${ extension.name }/license`;
-		shell.openExternal(url);
+		this.windowService.openExternal(url);
 		return TPromise.as(null);
 	}
 }
@@ -110,14 +111,15 @@ class OpenInGalleryAction extends Action {
 		private promptToInstall: boolean,
 		@IMessageService protected messageService: IMessageService,
 		@IWorkspaceContextService private contextService: IWorkspaceContextService,
-		@IInstantiationService protected instantiationService: IInstantiationService
+		@IInstantiationService protected instantiationService: IInstantiationService,
+		@IWindowService private windowService: IWindowService
 	) {
 		super('extensions.open-in-gallery', nls.localize('readme', "Readme"), '', true);
 	}
 
 	public run(extension: IExtension): TPromise<any> {
 		const url = `${this.contextService.getConfiguration().env.extensionsGallery.itemUrl}/${ extension.publisher }.${ extension.name }`;
-		shell.openExternal(url);
+		this.windowService.openExternal(url);
 
 		if (!this.promptToInstall) {
 			return TPromise.as(null);
