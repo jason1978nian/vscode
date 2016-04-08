@@ -19,7 +19,7 @@ import v8 = require('vs/workbench/parts/debug/node/v8Protocol');
 import stdfork = require('vs/base/node/stdFork');
 import { IMessageService, CloseAction } from 'vs/platform/message/common/message';
 import { ITelemetryService } from 'vs/platform/telemetry/common/telemetry';
-import { shell } from 'electron';
+import { IWindowService } from 'vs/workbench/services/window/electron-browser/windowService';
 
 export class RawDebugSession extends v8.V8Protocol implements debug.IRawDebugSession {
 	private serverProcess: cp.ChildProcess;
@@ -37,7 +37,8 @@ export class RawDebugSession extends v8.V8Protocol implements debug.IRawDebugSes
 		private telemetryService: ITelemetryService,
 		private debugServerPort: number,
 		private adapter: Adapter,
-		private telemtryAdapter: AIAdapter
+		private telemtryAdapter: AIAdapter,
+		private windowService: IWindowService
 	) {
 		super();
 		this.capabilities = {};
@@ -74,7 +75,7 @@ export class RawDebugSession extends v8.V8Protocol implements debug.IRawDebugSes
 				if (error && error.url) {
 					const label = error.urlLabel ? error.urlLabel : nls.localize('moreInfo', "More Info");
 					return TPromise.wrapError(errors.create(message, { actions: [CloseAction, new Action('debug.moreInfo', label, null, true, () => {
-						shell.openExternal(error.url);
+						this.windowService.openExternal(error.url);
 						return TPromise.as(null);
 					})]}));
 				}

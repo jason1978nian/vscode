@@ -13,6 +13,7 @@ import {Dropdown} from 'vs/base/browser/ui/dropdown/dropdown';
 import {IContextViewService} from 'vs/platform/contextview/browser/contextView';
 import {ITelemetryService} from 'vs/platform/telemetry/common/telemetry';
 import {IWorkspaceContextService} from 'vs/workbench/services/workspace/common/contextService';
+import {IWindowService} from 'vs/workbench/services/window/electron-browser/windowService';
 
 export interface IFeedback {
 	feedback: string;
@@ -20,7 +21,7 @@ export interface IFeedback {
 }
 
 export interface IFeedbackService {
-	submitFeedback(feedback: IFeedback): void;
+	submitFeedback(windowService: IWindowService, feedback: IFeedback): void;
 }
 
 export interface IFeedbackDropdownOptions {
@@ -59,6 +60,7 @@ export class FeedbackDropdown extends Dropdown {
 		options: IFeedbackDropdownOptions,
 		@ITelemetryService protected telemetryService: ITelemetryService,
 		@IWorkspaceContextService private contextService: IWorkspaceContextService
+		@IWindowService private windowService: IWindowService
 	) {
 		super(container, {
 			contextViewProvider: options.contextViewProvider,

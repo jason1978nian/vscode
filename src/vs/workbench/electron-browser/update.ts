@@ -13,7 +13,7 @@ import {ipcRenderer as ipc} from 'electron';
 import {IMessageService} from 'vs/platform/message/common/message';
 import {IWorkspaceContextService} from 'vs/workbench/services/workspace/common/contextService';
 import {IRequestService} from 'vs/platform/request/common/request';
-import {IWindowService}from 'vs/workbench/services/window/electron-browser/windowService';
+import {IWindowService} from 'vs/workbench/services/window/electron-browser/windowService';
 
 interface IUpdate {
 	releaseNotes: string;
