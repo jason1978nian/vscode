@@ -105,10 +105,15 @@ export class ZoneWidget extends EventEmitter {
 		this.overlayWidget = null;
 		this.lastView = null;
 		this.domNode = document.createElement('div');
+<<<<<<< HEAD
 		if (!this.options.isAccessible) {
 			this.domNode.setAttribute('aria-hidden', 'true');
 			this.domNode.setAttribute('role', 'presentation');
 		}
+=======
+		// this.domNode.setAttribute('aria-hidden', 'true');
+		// this.domNode.setAttribute('role', 'presentation');
+>>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
 
 		this.container = null;
 		this.listenersToRemove = [];

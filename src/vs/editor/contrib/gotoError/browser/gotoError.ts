@@ -197,6 +197,7 @@ var zoneOptions: IOptions = {
 
 class MarkerNavigationWidget extends ZoneWidget {
 
+	private _id: string;
 	private _eventService: IEventService;
 	private _editorService: IEditorService;
 	private _container: HTMLElement;
@@ -208,6 +209,7 @@ class MarkerNavigationWidget extends ZoneWidget {
 
 	constructor(eventService:IEventService, editorService:IEditorService, editor: ICodeEditor, private _model: MarkerModel) {
 		super(editor, zoneOptions);
+		this._id = this.editor.generateUniqueId();
 		this._eventService = eventService;
 		this._editorService = editorService;
 		this.create();
@@ -247,6 +249,7 @@ class MarkerNavigationWidget extends ZoneWidget {
 		}));
 	}
 
+<<<<<<< HEAD
 	private _goLeft(): void {
 		if (!this._quickFixEntries) {
 			return;
@@ -273,10 +276,35 @@ class MarkerNavigationWidget extends ZoneWidget {
 	public show(where:any, heightInLines:number):void {
 		super.show(where, heightInLines);
 		this._container.focus();
+=======
+		$container.div({ class: 'descriptioncontainer' }, (div: Builder.Builder) => {
+			this._element = div;
+		});
+		$container.div((div: Builder.Builder) => {
+			this._quickFixSection = div;
+		});
+		$container.on(DOM.EventType.CLICK, () => {
+			this.editor.focus();
+		});
+
+		// this._element.getHTMLElement().setAttribute('role', 'alert');
+		// this._element.getHTMLElement().setAttribute('role', 'tooltip');
+		this._element.getHTMLElement().setAttribute('role', 'option');
+		// this._element.getHTMLElement().setAttribute('aria-hidden', 'false');
+		this._element.getHTMLElement().id = 'asdx';//this._id;
+>>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
 	}
 
 	private _wireModelAndView(): void {
 		this._model.onCurrentMarkerChanged(this.showAtMarker, this, this._callOnDispose);
+	}
+
+	public show(where:EditorCommon.IRange, heightInLines:number):void;
+	public show(where:EditorCommon.IPosition, heightInLines:number):void;
+	public show(where:any, heightInLines:number):void {
+		// this._element.getHTMLElement().innerHTML = 'ALEX IS COOl1!!';
+		super.show(where, heightInLines);
+		this.editor.setActiveDescendant(this._id);
 	}
 
 	public showAtMarker(marker: IMarker): void {

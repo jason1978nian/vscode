@@ -80,8 +80,19 @@ export class CodeEditorWidget extends CommonCodeEditor implements editorBrowser.
 		}
 	}
 
+<<<<<<< HEAD
 	protected _createConfiguration(options:editorCommon.ICodeEditorWidgetCreationOptions): CommonEditorConfiguration {
 		return new Configuration(options, this.domElement);
+=======
+	public setActiveDescendant(id:string): void {
+		if (this._view) {
+			this._view.setActiveDescendant(id);
+		}
+	}
+
+	protected _createConfiguration(options:EditorCommon.ICodeEditorWidgetCreationOptions, indentationGuesser:IIndentationGuesser): CommonEditorConfiguration {
+		return new Configuration(options, this.domElement, indentationGuesser);
+>>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
 	}
 
 	public dispose(): void {

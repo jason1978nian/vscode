@@ -83,6 +83,15 @@
 			const { command, data} = message.data;
 			ipcRenderer.sendToHost(command, data);
 		};
+<<<<<<< HEAD
+=======
+
+		// signal ready, needs a short timeout for an
+		// unknown reason
+		setTimeout(function() {
+			ipcRenderer.sendToHost('webview-ready', process.pid);
+		}, 10);
+>>>>>>> refs/remotes/origin/customDebugView
 
 		// signal ready
 		ipcRenderer.sendToHost('webview-ready', process.pid);

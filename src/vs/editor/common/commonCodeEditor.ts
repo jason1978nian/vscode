@@ -24,12 +24,22 @@ import {EditorState} from 'vs/editor/common/core/editorState';
 import {Position} from 'vs/editor/common/core/position';
 import {Range} from 'vs/editor/common/core/range';
 import {Selection} from 'vs/editor/common/core/selection';
+<<<<<<< HEAD
 import {DynamicEditorAction} from 'vs/editor/common/editorAction';
 import * as editorCommon from 'vs/editor/common/editorCommon';
 import {ICodeEditorService} from 'vs/editor/common/services/codeEditorService';
 import {CharacterHardWrappingLineMapperFactory} from 'vs/editor/common/viewModel/characterHardWrappingLineMapper';
 import {SplitLinesCollection} from 'vs/editor/common/viewModel/splitLinesCollection';
 import {ViewModel} from 'vs/editor/common/viewModel/viewModel';
+=======
+import {IInstantiationService} from 'vs/platform/instantiation/common/instantiation';
+import {ITelemetryService} from 'vs/platform/telemetry/common/telemetry';
+import {EditorState} from 'vs/editor/common/core/editorState';
+import {IKeybindingScopeLocation, IKeybindingService, IKeybindingContextKey} from 'vs/platform/keybinding/common/keybindingService';
+import {CommonEditorConfiguration, IIndentationGuesser} from 'vs/editor/common/config/commonEditorConfig';
+import {DefaultConfig} from 'vs/editor/common/config/defaultConfig';
+import {IdGenerator} from 'vs/editor/common/core/idGenerator';
+>>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
 
 var EDITOR_ID = 0;
 
@@ -38,6 +48,7 @@ export abstract class CommonCodeEditor extends EventEmitter implements IActionPr
 	protected domElement: IKeybindingScopeLocation;
 
 	protected id:number;
+	private _widgetIdGenerator: IdGenerator;
 
 	_lifetimeDispose: IDisposable[];
 	_configuration:CommonEditorConfiguration;
@@ -82,6 +93,7 @@ export abstract class CommonCodeEditor extends EventEmitter implements IActionPr
 		this.domElement = domElement;
 
 		this.id = (++EDITOR_ID);
+		this._widgetIdGenerator = new IdGenerator('MCE-' + this.id + '-');
 		this._codeEditorService = codeEditorService;
 
 		var timerEvent = timer.start(timer.Topic.EDITOR, 'CodeEditor.ctor');
@@ -129,7 +141,17 @@ export abstract class CommonCodeEditor extends EventEmitter implements IActionPr
 		this._codeEditorService.addCodeEditor(this);
 	}
 
+<<<<<<< HEAD
 	protected abstract _createConfiguration(options:editorCommon.ICodeEditorWidgetCreationOptions): CommonEditorConfiguration;
+=======
+	public generateUniqueId(): string {
+		return this._widgetIdGenerator.generate();
+	}
+
+	public abstract setActiveDescendant(id:string): void;
+
+	protected abstract _createConfiguration(options:EditorCommon.ICodeEditorWidgetCreationOptions, indentationGuesser:IIndentationGuesser): CommonEditorConfiguration;
+>>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
 
 	public getId(): string {
 		return this.getEditorType() + ':' + this.id;

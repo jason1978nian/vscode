@@ -70,7 +70,13 @@ export interface IPointerHandlerHelper {
 export interface IView extends IDisposable {
 	domNode: HTMLElement;
 
+<<<<<<< HEAD
 	getInternalEventBus(): IEventEmitter;
+=======
+	setActiveDescendant(id:string): void;
+
+	getInternalEventBus(): EventEmitter.IEventEmitter;
+>>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
 
 	createOverviewRuler(cssClassName:string, minimumHeight:number, maximumHeight:number): IOverviewRuler;
 	getCodeEditorHelper(): ICodeEditorHelper;
