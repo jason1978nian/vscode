@@ -39,7 +39,10 @@ import {IKeybindingScopeLocation, IKeybindingService, IKeybindingContextKey} fro
 import {CommonEditorConfiguration, IIndentationGuesser} from 'vs/editor/common/config/commonEditorConfig';
 import {DefaultConfig} from 'vs/editor/common/config/defaultConfig';
 import {IdGenerator} from 'vs/editor/common/core/idGenerator';
+<<<<<<< HEAD
 >>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
+=======
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 
 var EDITOR_ID = 0;
 
@@ -142,8 +145,11 @@ export abstract class CommonCodeEditor extends EventEmitter implements IActionPr
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	protected abstract _createConfiguration(options:editorCommon.ICodeEditorWidgetCreationOptions): CommonEditorConfiguration;
 =======
+=======
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 	public generateUniqueId(): string {
 		return this._widgetIdGenerator.generate();
 	}

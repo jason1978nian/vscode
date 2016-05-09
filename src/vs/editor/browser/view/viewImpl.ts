@@ -175,13 +175,17 @@ export class View extends ViewEventHandler implements editorBrowser.IView, IDisp
 		this._editorTextFocusContextKey = this._keybindingService.createKey(EditorCommon.KEYBINDING_CONTEXT_EDITOR_TEXT_FOCUS, undefined);
 		this.textArea.className = EditorBrowser.ClassNames.TEXTAREA;
 		this.textArea.setAttribute('type', 'text');
+<<<<<<< HEAD
 >>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
+=======
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 		this.textArea.setAttribute('wrap', 'off');
 		this.textArea.setAttribute('autocorrect', 'off');
 		this.textArea.setAttribute('autocapitalize', 'off');
 		this.textArea.setAttribute('spellcheck', 'false');
 		this.textArea.setAttribute('aria-label', this.context.configuration.editor.ariaLabel);
 		this.textArea.setAttribute('role', 'textbox');
+<<<<<<< HEAD
 <<<<<<< HEAD
 		this.textArea.setAttribute('aria-multiline', 'true');
 		this.textArea.setAttribute('aria-haspopup', 'false');
@@ -190,6 +194,9 @@ export class View extends ViewEventHandler implements editorBrowser.IView, IDisp
 =======
 		// this.textArea.setAttribute('aria-multiline', 'true');
 >>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
+=======
+		// this.textArea.setAttribute('aria-multiline', 'true');
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 		StyleMutator.setTop(this.textArea, 0);
 		StyleMutator.setLeft(this.textArea, 0);
 		// Give textarea same font size & line height as editor, for the IME case (when the textarea is visible)
@@ -537,9 +544,12 @@ export class View extends ViewEventHandler implements editorBrowser.IView, IDisp
 	// --- begin Code Editor APIs
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private codeEditorHelper:editorBrowser.ICodeEditorHelper;
 	public getCodeEditorHelper(): editorBrowser.ICodeEditorHelper {
 =======
+=======
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 	public setActiveDescendant(id:string): void {
 
 // 		 <input

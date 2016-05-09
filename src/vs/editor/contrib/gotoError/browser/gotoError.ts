@@ -292,7 +292,10 @@ class MarkerNavigationWidget extends ZoneWidget {
 		this._element.getHTMLElement().setAttribute('role', 'option');
 		// this._element.getHTMLElement().setAttribute('aria-hidden', 'false');
 		this._element.getHTMLElement().id = 'asdx';//this._id;
+<<<<<<< HEAD
 >>>>>>> refs/remotes/jason1978nian/alex/active-descendant-wip
+=======
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 	}
 
 	private _wireModelAndView(): void {

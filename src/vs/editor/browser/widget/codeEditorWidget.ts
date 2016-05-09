@@ -81,9 +81,12 @@ export class CodeEditorWidget extends CommonCodeEditor implements editorBrowser.
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	protected _createConfiguration(options:editorCommon.ICodeEditorWidgetCreationOptions): CommonEditorConfiguration {
 		return new Configuration(options, this.domElement);
 =======
+=======
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 	public setActiveDescendant(id:string): void {
 		if (this._view) {
 			this._view.setActiveDescendant(id);

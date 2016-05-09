@@ -71,8 +71,11 @@ export interface IView extends IDisposable {
 	domNode: HTMLElement;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	getInternalEventBus(): IEventEmitter;
 =======
+=======
+>>>>>>> refs/remotes/origin/alex/active-descendant-wip
 	setActiveDescendant(id:string): void;
 
 	getInternalEventBus(): EventEmitter.IEventEmitter;
