@@ -1783,6 +1783,79 @@ export class OpenResourcesAction extends Action {
 	}
 }
 
+export class ReopenClosedFileAction extends Action {
+
+	public static ID = 'workbench.files.action.reopenClosedFile';
+	public static LABEL = nls.localize('reopenClosedFile', "Reopen Closed File");
+
+	constructor(
+		id: string,
+		label: string,
+		@IPartService private partService: IPartService,
+		@IWorkbenchEditorService private editorService: IWorkbenchEditorService,
+		@IViewletService private viewletService: IViewletService,
+		@ITextFileService private textFileService: ITextFileService,
+		@IFileService private fileService: IFileService
+	) {
+		super(id, label);
+	}
+
+	public run(): TPromise<any> {
+		let viewletPromise = TPromise.as(null);
+		if (!this.partService.isSideBarHidden()) {
+			viewletPromise = this.viewletService.openViewlet(Files.VIEWLET_ID, false);
+		}
+
+		return viewletPromise.then(() => {
+			let workingFilesModel: Files.IWorkingFilesModel = this.textFileService.getWorkingFilesModel();
+			let resources: Files.IWorkingFileEntry[] = workingFilesModel.popLastClosedEntry();
+
+			if (resources === null) {
+				return TPromise.as(true);
+			}
+
+			let resolveFilePromises: TPromise<any>[] = resources.map((r) => { return this.fileService.resolveFile(r.resource); });
+
+			return TPromise.join(resolveFilePromises).then(() => {
+				return this.openEntries(resources, workingFilesModel);
+			}, (e: any[]) => {
+
+				// Don't attempt to reopen files that fail because they no longer exist
+				let exceptions = [];
+				e.forEach(err => {
+					if (err.code === 'ENOENT') {
+						resources = resources.filter(r => r.resource.path !== err.path);
+					} else {
+						exceptions.push(e);
+					}
+				});
+
+				let result: TPromise<any>;
+				if (resources.length > 0) {
+					result = this.openEntries(resources, workingFilesModel);
+				} else if (exceptions.length === 0) {
+					// None of the files exist anymore, run action again
+					return this.run();
+				}
+
+				if (exceptions.length > 0) {
+					return TPromise.wrapError({ 'exception': e, 'resultPromise': result });
+				}
+
+				return result;
+			});
+		});
+	}
+
+	private openEntries(resources: Files.IWorkingFileEntry[], workingFilesModel: Files.IWorkingFilesModel): TPromise<any> {
+		let newEntries: Files.IWorkingFileEntry[] = [];
+		resources.forEach(function (resource) {
+			newEntries.push(workingFilesModel.addEntry(resource));
+		});
+		return this.editorService.openEditor(newEntries[0]);
+	}
+}
+
 export abstract class BaseCloseWorkingFileAction extends Action {
 	protected model: WorkingFilesModel;
 	private elements: URI[];
